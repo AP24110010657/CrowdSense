@@ -43,14 +43,14 @@ const trendingPlaces = [
     visitors: '3600+',
   },
   {
-    id: 6,
-    name: 'Summer Music Festival',
-    category: 'events',
-    crowdLevel: 88,
-    popularTime: '4:00 PM - 11:00 PM',
-    description: 'Outdoor festival with live performances all evening.',
+    id: 7,
+    name: 'Verandah Cafe (Vijayawada)',
+    category: 'cafes',
+    crowdLevel: 52,
+    popularTime: '7:00 PM - 9:00 PM',
+    description: 'Popular evening spot with riverside seating. Great ambiance!',
     trend: 'up',
-    visitors: '5200+',
+    visitors: '42+',
   },
   {
     id: 3,
@@ -58,19 +58,29 @@ const trendingPlaces = [
     category: 'cafes',
     crowdLevel: 45,
     popularTime: '12:00 PM - 2:00 PM',
-    description: 'Popular spot for remote workers and coffee lovers.',
-    trend: 'down',
+    description: 'Perfect for remote work with excellent WiFi and coffee.',
+    trend: 'stable',
     visitors: '45+',
   },
   {
-    id: 7,
-    name: 'Artisan Coffee House',
+    id: 6,
+    name: 'Coders Cafe',
     category: 'cafes',
-    crowdLevel: 52,
-    popularTime: '8:00 AM - 10:00 AM',
-    description: 'Specialty coffee and fresh pastries. Morning rush expected.',
-    trend: 'stable',
-    visitors: '65+',
+    crowdLevel: 38,
+    popularTime: '3:00 PM - 5:00 PM',
+    description: 'Tech-friendly workspace with coding community meetups.',
+    trend: 'up',
+    visitors: '23+',
+  },
+  {
+    id: 8,
+    name: 'Summer Music Festival',
+    category: 'events',
+    crowdLevel: 88,
+    popularTime: '4:00 PM - 11:00 PM',
+    description: 'Outdoor festival with live performances all evening.',
+    trend: 'up',
+    visitors: '5200+',
   },
 ];
 
@@ -87,7 +97,7 @@ export function Explore() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl text-soft-white mb-2">Explore Trending Places</h1>
+          <h1 className="text-3xl md:text-4xl text-soft-white mb-2">Nearby Places</h1>
           <p className="text-soft-white/60">Discover popular locations and events happening now</p>
         </div>
 

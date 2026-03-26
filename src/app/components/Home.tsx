@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Search, Target, Users, TrendingUp, Shield, Clock, Cloud, Droplets, Wind, Sun } from 'lucide-react';
 import { motion } from 'motion/react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 
 const mockLocations = [
   { id: 1, name: 'Central Mall', lat: 40.7580, lng: -73.9855, crowdLevel: 85, color: '#FF4D4D' },
@@ -9,11 +9,40 @@ const mockLocations = [
   { id: 3, name: 'Tech Hub Cafe', lat: 40.7614, lng: -73.9776, crowdLevel: 45, color: '#2ECC71' },
   { id: 4, name: 'Park Avenue', lat: 40.7549, lng: -73.9840, crowdLevel: 28, color: '#2ECC71' },
   { id: 5, name: 'Downtown Plaza', lat: 40.7520, lng: -73.9730, crowdLevel: 90, color: '#FF4D4D' },
+  { id: 6, name: 'Coders Cafe', lat: 40.7565, lng: -73.9820, crowdLevel: 38, color: '#2ECC71' },
+  { id: 7, name: 'Verandah Cafe (Vijayawada)', lat: 40.7600, lng: -73.9700, crowdLevel: 52, color: '#FFC857' },
 ];
 
 export function Home() {
   const [mode, setMode] = useState<'avoid' | 'find'>('avoid');
   const [searchQuery, setSearchQuery] = useState('');
+  const [showSearchResults, setShowSearchResults] = useState(false);
+  const navigate = useNavigate();
+  const searchRef = useRef<HTMLDivElement>(null);
+
+  const filteredLocations = searchQuery
+    ? mockLocations.filter((loc) =>
+        loc.name.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : [];
+
+  const handleLocationClick = (locationId: number) => {
+    navigate(`/location/${locationId}`);
+    setSearchQuery('');
+    setShowSearchResults(false);
+  };
+
+  // Close search results when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setShowSearchResults(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
     <div className="min-h-screen pb-20 md:pb-0">
@@ -46,16 +75,63 @@ export function Home() {
 
         {/* Search and Mode Toggle */}
         <div className="mb-8 space-y-4">
-          <div className="relative">
+          <div className="relative" ref={searchRef}>
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-cyan/60" />
             <input
               type="text"
               placeholder="Search location..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              onFocus={() => setShowSearchResults(true)}
               className="w-full pl-12 pr-4 py-4 bg-cyan/5 border border-cyan/20 rounded-2xl text-soft-white placeholder-soft-white/40 focus:outline-none focus:ring-2 focus:ring-cyan/50 backdrop-blur-xl transition-all"
               style={{ boxShadow: '0 8px 32px rgba(0, 229, 255, 0.1)' }}
             />
+
+            {/* Search Results Dropdown */}
+            {showSearchResults && searchQuery && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="absolute top-full mt-2 w-full bg-navy/95 border border-cyan/30 rounded-2xl backdrop-blur-xl overflow-hidden z-50"
+                style={{ boxShadow: '0 8px 32px rgba(0, 229, 255, 0.3)' }}
+              >
+                {filteredLocations.length > 0 ? (
+                  <div className="max-h-80 overflow-y-auto">
+                    {filteredLocations.map((location) => (
+                      <button
+                        key={location.id}
+                        onClick={() => handleLocationClick(location.id)}
+                        className="w-full px-4 py-3 flex items-center justify-between hover:bg-cyan/10 transition-all border-b border-cyan/10 last:border-b-0"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div
+                            className="w-3 h-3 rounded-full"
+                            style={{ backgroundColor: location.color }}
+                          />
+                          <span className="text-soft-white">{location.name}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm text-soft-white/60">{location.crowdLevel}%</span>
+                          <div
+                            className="px-2 py-1 rounded text-xs"
+                            style={{
+                              backgroundColor: `${location.color}20`,
+                              color: location.color,
+                            }}
+                          >
+                            {location.crowdLevel > 70 ? 'High' : location.crowdLevel > 50 ? 'Medium' : 'Low'}
+                          </div>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="px-4 py-6 text-center text-soft-white/60">
+                    No locations found for "{searchQuery}"
+                  </div>
+                )}
+              </motion.div>
+            )}
           </div>
 
           <div className="flex items-center justify-center gap-4">

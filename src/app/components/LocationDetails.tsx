@@ -14,6 +14,7 @@ const mockData = {
     safetyWarning: 'High crowd density detected. Consider visiting alternate locations.',
     alternates: [
       { id: 3, name: 'Tech Hub Cafe', crowdLevel: 45, distance: '1.2 km' },
+      { id: 6, name: 'Coders Cafe', crowdLevel: 38, distance: '1.5 km' },
       { id: 4, name: 'Park Avenue', crowdLevel: 28, distance: '2.5 km' },
     ],
   },
@@ -37,7 +38,10 @@ const mockData = {
     peakTime: '12:00 PM - 2:00 PM',
     currentCapacity: '45/100',
     safetyWarning: null,
-    alternates: [],
+    alternates: [
+      { id: 6, name: 'Coders Cafe', crowdLevel: 38, distance: '0.8 km' },
+      { id: 7, name: 'Verandah Cafe (Vijayawada)', crowdLevel: 52, distance: '1.1 km' },
+    ],
   },
   4: {
     name: 'Park Avenue',
@@ -59,7 +63,34 @@ const mockData = {
     safetyWarning: 'Critical crowd density! Please avoid this area or wait for crowd to disperse.',
     alternates: [
       { id: 3, name: 'Tech Hub Cafe', crowdLevel: 45, distance: '2.8 km' },
+      { id: 6, name: 'Coders Cafe', crowdLevel: 38, distance: '2.2 km' },
       { id: 4, name: 'Park Avenue', crowdLevel: 28, distance: '1.9 km' },
+    ],
+  },
+  6: {
+    name: 'Coders Cafe',
+    crowdLevel: 38,
+    status: 'Low',
+    color: '#2ECC71',
+    peakTime: '3:00 PM - 5:00 PM',
+    currentCapacity: '23/60',
+    safetyWarning: null,
+    alternates: [
+      { id: 3, name: 'Tech Hub Cafe', crowdLevel: 45, distance: '0.8 km' },
+      { id: 7, name: 'Verandah Cafe (Vijayawada)', crowdLevel: 52, distance: '1.4 km' },
+    ],
+  },
+  7: {
+    name: 'Verandah Cafe (Vijayawada)',
+    crowdLevel: 52,
+    status: 'Moderate',
+    color: '#FFC857',
+    peakTime: '7:00 PM - 9:00 PM',
+    currentCapacity: '42/80',
+    safetyWarning: null,
+    alternates: [
+      { id: 6, name: 'Coders Cafe', crowdLevel: 38, distance: '1.4 km' },
+      { id: 3, name: 'Tech Hub Cafe', crowdLevel: 45, distance: '1.1 km' },
     ],
   },
 };
